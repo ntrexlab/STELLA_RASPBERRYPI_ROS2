@@ -21,6 +21,7 @@
 #define LEFT 0
 #define RIGHT 1
 using namespace std::chrono_literals;
+using std::placeholders::_1;
 
 class stellaN1_node : public rclcpp::Node
 {
@@ -38,10 +39,8 @@ private:
 
     // ROS topic subscribers
     rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr cmd_vel_sub_;
-
-    nav_msgs::msg::Odometry odom;
     
-    std::shared_ptr<tf2_ros::TransformBroadcaster> odom_broadcaster;
+    std::unique_ptr<tf2_ros::TransformBroadcaster> odom_broadcaster;
     
     double goal_linear_velocity_;
     double goal_angular_velocity_;
