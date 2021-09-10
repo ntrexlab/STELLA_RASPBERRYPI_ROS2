@@ -11,6 +11,7 @@
 #include <sstream>
 #include <iostream>
 #include <stdlib.h>
+#include <pthread.h>
 
 #include "geometry_msgs/msg/transform_stamped.hpp"
 #include "geometry_msgs/msg/twist.hpp"

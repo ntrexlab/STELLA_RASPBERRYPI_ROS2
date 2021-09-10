@@ -29,6 +29,7 @@ void stellaN1_node::command_velocity_callback(const geometry_msgs::msg::Twist::S
   
   calculate_wheel_vel(cmd_vel_msg->linear.x, cmd_vel_msg->angular.z, &left_rpm, &right_rpm);
   MDC24D_rpm_to_pulse(id,left_rpm,right_rpm,encoder);
+  sleep(0.2);
 
 }
 
