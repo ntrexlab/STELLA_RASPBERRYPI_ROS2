@@ -34,7 +34,8 @@ ament_target_dependencies(stella_ahrs_node
   "sensor_msgs"
   "tf2"
 )
-target_link_libraries(${PROJECT_NAME}_node ${CMAKE_CURRENT_SOURCE_DIR}/lib/lib_mw_ahrs_bin_driver.a)
+
+target_link_libraries(${PROJECT_NAME}_node ${CMAKE_CURRENT_SOURCE_DIR}/lib/Mw_ahrs.a)
 
 ################################################################################
 # Install

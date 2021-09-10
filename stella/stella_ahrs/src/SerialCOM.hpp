@@ -17,8 +17,8 @@ public:
     SerialCOM();
     ~SerialCOM();
 
-    int Usb_Serial_Open(char *str, int BaudRate);
+    int Usb_Serial_Open(char *str, int BaudRate,int pi);
     int __Read(char *buff);
-    int __Write(char *buff, int length);
+    int __Write(unsigned char *buff, int length);
     void Close();
 };

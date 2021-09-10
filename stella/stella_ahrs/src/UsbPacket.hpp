@@ -24,7 +24,7 @@ public:
     
     int _RecvPacket(char *packet, int length);
     bool RecvPacket(Usb2Packet &pkt);
-    bool SendPacket(void);
+    bool SendPacket(Usb2Packet_TX *mpkt, int no_pkt);
     char checkSum(char *packet, int start_length, int end_length);
     int FindMove(char *packet, int length, char stx);
     

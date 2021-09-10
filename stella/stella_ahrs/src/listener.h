@@ -11,6 +11,7 @@
 #include <math.h>
 #include <pthread.h>
 #include "MwSerial.hpp"
+#include "MwAHRS.hpp"
 
 #include "rclcpp/rclcpp.hpp"
 #include "rclcpp/time_source.hpp"
@@ -38,7 +39,6 @@ long id = 0;
 int length = 0;
 bool run = true;
 
-int16_t acc_x = 0, acc_y = 0, acc_z = 0, gyo_x = 0, gyo_y = 0, gyo_z = 0, deg_x = 0, deg_y = 0, deg_z = 0; 
 
 //sensor_msgs::msg::Imu imu;
 auto imu = std::make_shared<sensor_msgs::msg::Imu>();

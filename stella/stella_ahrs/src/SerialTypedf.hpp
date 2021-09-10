@@ -9,6 +9,19 @@ struct SerialMessage
     char data[8];
 };
 
+struct SerialMessage_TX
+{
+    int length;
+    long ID;
+    char data[8];
+};
+
+struct SerialMessage_TX_str
+{
+    char data[20];
+};
+
+
 
 struct Usb2Packet
 {
@@ -19,5 +32,27 @@ struct Usb2Packet
     };
     
 };
+
+struct Usb2Packet_TX
+{
+    double time_recv;
+    union 
+    {
+        SerialMessage_TX msg;
+    };
+    
+};
+
+struct Usb2Packet_TX_str
+{
+    double time_recv;
+    union 
+    {
+        SerialMessage_TX_str msg;
+    };
+    
+};
+
+
 
 

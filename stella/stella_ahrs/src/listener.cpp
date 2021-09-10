@@ -29,13 +29,15 @@ void *AHRS_thread(void *arg)
                 break;
 
             case DEG:
-		deg_x = ((int)(unsigned char)data[2] | (int)(unsigned char)data[3] << 8);
+		        deg_x = ((int)(unsigned char)data[2] | (int)(unsigned char)data[3] << 8);
                 deg_y = ((int)(unsigned char)data[4] | (int)(unsigned char)data[5] << 8);
                 deg_z = ((int)(unsigned char)data[6] | (int)(unsigned char)data[7] << 8);
 
                 float x = deg_x / 100.0;
                 float y = deg_y / 100.0;
                 float z = deg_z / 100.0;
+
+                
 
                 imu->orientation.w = (COS(z) * COS(y) * COS(x)) + (SIN(z) * SIN(y) * SIN(x));
                 imu->orientation.x = (COS(z) * COS(y) * SIN(x)) - (SIN(z) * SIN(y) * COS(x));
@@ -48,15 +50,20 @@ void *AHRS_thread(void *arg)
 }
     int main(int argc, char **argv)
     {
+        int ret = MW_SerialOpen("/dev/AHRS", 115200,1);
+
+        if(ret != 0) return -1;
+        sleep(1.0);
+
+        Mw_AHRS_init(1);
+
         pthread_t thread;
-        
-        auto qos = rclcpp::QoS(rclcpp::KeepLast(10));
 
         rclcpp::init(argc,argv);
         auto node = rclcpp::Node::make_shared("stella_ahrs");
-        auto chatter_pub = node->create_publisher<sensor_msgs::msg::Imu>("imu", qos);
+        auto chatter_pub = node->create_publisher<sensor_msgs::msg::Imu>("imu", 13);
 
-        MW_SerialOpen("/dev/ttyUSB0", 115200);
+        
         pthread_create(&thread, NULL, AHRS_thread, NULL);
 
         imu->orientation_covariance = {0.0025, 0, 0, 0, 0.0025, 0, 0, 0, 0.0025};
@@ -71,7 +78,7 @@ void *AHRS_thread(void *arg)
         imu->angular_velocity.y = 0;
         imu->angular_velocity.z = 0;
 
-        imu->orientation.w = 0;
+        imu->orientation.w = 1;
         imu->orientation.x = 0;
         imu->orientation.y = 0;
         imu->orientation.z = 0;
@@ -80,6 +87,7 @@ void *AHRS_thread(void *arg)
         rclcpp::TimeSource ts(node);
         rclcpp::Clock::SharedPtr clock = std::make_shared<rclcpp::Clock>(RCL_ROS_TIME);
         ts.attachClock(clock);
+        
 
         while (rclcpp::ok())
         {
@@ -92,7 +100,9 @@ void *AHRS_thread(void *arg)
             rate.sleep();
         }
         run = false;
+	Mw_SerialClose();
         pthread_join(thread,NULL);
-        return 0;
+        
+	return 0;
     }
  

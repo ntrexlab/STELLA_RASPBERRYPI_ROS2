@@ -10,6 +10,7 @@ typedef unsigned int UINT;
 typedef void *LPVOID;
 
 static deque<Usb2Packet> _queueReceive;
+static deque<Usb2Packet_TX> _queueTransmit;
 
 class SerialCoM;
 
@@ -29,6 +30,7 @@ public:
     static void *ThreadReceiveStatic(LPVOID pParam);
     static void *ThreadTransmitStatic(LPVOID pParam);
     bool ReceiveSerialMessage(SerialMessage &pkt);
+    bool TransmitSerialMessage(SerialMessage_TX &pkt);
 
     bool _stopReqThreadTransmit;
     bool _stopReqThreadReceive;
@@ -42,6 +44,6 @@ protected:
 private:
     
     CLock _lockReceive;
-    
+    CLock _lockTransmit;
 
 };
