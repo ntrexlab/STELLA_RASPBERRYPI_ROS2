@@ -48,6 +48,10 @@ def generate_launch_description():
         'lidar_pkg_dir',
         default=os.path.join(get_package_share_directory('ydlidar'), 'launch'))
 
+    ahrs_pkg_dir = LaunchConfiguration(
+        'ahrs_pkg_dir',
+        default=os.path.join(get_package_share_directory('stella_ahrs'), 'launch'))
+
     use_sim_time = LaunchConfiguration('use_sim_time', default='false')
 
     return LaunchDescription([
@@ -79,6 +83,11 @@ def generate_launch_description():
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource([lidar_pkg_dir, '/ydlidar_launch.py']),
         ),
+
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource([ahrs_pkg_dir, '/stella_ahrs_launch.py']),
+        ),
+
 
 #        Node(
 #            package='turtlebot3_node',
